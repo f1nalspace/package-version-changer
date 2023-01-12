@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Platforms>AnyCPU</Platforms>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>TSP.PackageVersionChanger</RootNamespace>
+    <AssemblyName>PackageVersionChanger</AssemblyName>
+    <BaseOutputPath>..\Build\$(AssemblyName)\</BaseOutputPath>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <Version>0.1.0</Version>
+    <Copyright>(C) 2023 TSP Software</Copyright>
+    <Authors>Torsten Spaete</Authors>
+    <Description>A tool for updating multiple package references in a visual studio C# project</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Changelog.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Changelog.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DevExpressMvvm" Version="22.1.3" />
+    <PackageReference Include="NuGet.Client" Version="4.3.0-beta1-2418" />
+  </ItemGroup>
+
+</Project>

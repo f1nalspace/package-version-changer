@@ -1,0 +1,81 @@
+﻿<Window x:Class="TSP.PackageVersionChanger.EditPackagesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TSP.PackageVersionChanger"
+        xmlns:dxmmvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+        mc:Ignorable="d"
+        Title="Edit Packages" Height="450" Width="800" FontSize="16" WindowStartupLocation="CenterOwner" ResizeMode="CanResizeWithGrip" ShowInTaskbar="False"
+        d:DataContext="{d:DesignInstance local:EditPackagesViewModel, IsDesignTimeCreatable=True}">
+    <DockPanel LastChildFill="True">
+        <Grid DockPanel.Dock="Top" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0" LastChildFill="True">
+                <Label Content="Current Version:" DockPanel.Dock="Left" />
+                <Separator Width="5" DockPanel.Dock="Left" />
+                <TextBlock Text="{Binding InitialVersion}" VerticalAlignment="Center" />
+            </DockPanel>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0" LastChildFill="True">
+                    <Label Content="Configuration:" DockPanel.Dock="Left" />
+                    <Separator Width="5" DockPanel.Dock="Left" />
+                    <TextBlock Text="{Binding ConfigPlatform.Configuration, TargetNullValue=*}" VerticalAlignment="Center" />
+                </DockPanel>
+                <DockPanel Grid.Column="1" LastChildFill="True">
+                    <Label Content="Platform:" DockPanel.Dock="Left" />
+                    <Separator Width="5" DockPanel.Dock="Left" />
+                    <TextBlock Text="{Binding ConfigPlatform.Platform, TargetNullValue=*}" VerticalAlignment="Center" />
+                </DockPanel>
+            </Grid>
+            <DockPanel Grid.Row="2" LastChildFill="True">
+                <Label Content="New Version:" DockPanel.Dock="Left" />
+                <Separator Width="5" DockPanel.Dock="Left" />
+                <TextBox Text="{Binding NewVersion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
+            </DockPanel>
+        </Grid>
+        <Grid DockPanel.Dock="Bottom" Margin="10">
+            <Button x:Name="applyButton" Content="Apply" Padding="20 10" Command="{Binding ApplyCommand}" HorizontalAlignment="Right" IsDefault="True" />
+            <Button Content="Default" Padding="20 10" Command="{Binding ResetCommand}" HorizontalAlignment="Center" />
+            <Button Content="Cancel" Padding="20 10" HorizontalAlignment="Left" IsCancel="True" />
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ListBox Grid.Column="0" ItemsSource="{Binding Packages}" Margin="10">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Grid.Column="0" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center">
+                                <dxmmvm:Interaction.Behaviors>
+                                    <dxmmvm:EventToCommand EventName="Checked" Command="{Binding DataContext.OnCheckedPackageCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" PassEventArgsToCommand="False" />
+                                    <dxmmvm:EventToCommand EventName="Unchecked" Command="{Binding DataContext.OnUncheckedPackageCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" PassEventArgsToCommand="False" />
+                                </dxmmvm:Interaction.Behaviors>
+                            </CheckBox>
+                            <Separator Width="5" Grid.Column="1" />
+                            <TextBlock Grid.Column="2" Text="{Binding Package.Id}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" />
+            <ListBox Grid.Column="2" ItemsSource="{Binding Projects}" Margin="10" />
+        </Grid>
+    </DockPanel>
+</Window>
