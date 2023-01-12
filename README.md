@@ -1,2 +1,2 @@
-# package-version-changer
-A tool for updating multiple package references in a CSharp project
+# VS-Project Package Version Changer
+A tool for updating multiple package references in a visual studio C# project
